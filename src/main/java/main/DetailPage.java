@@ -1,14 +1,14 @@
 package main;
 
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
+import javax.swing.*;
 
 public class DetailPage extends JFrame {
     private JPanel panel;
@@ -61,6 +61,17 @@ public class DetailPage extends JFrame {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+        JButton modifierButton = new JButton("Modifier");
+        modifierButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                ModifierPage modifierPage = new ModifierPage(chambreId);
+                modifierPage.setVisible(true);
+                dispose();
+            }
+        });
+        panel.add(modifierButton);
+
 
         this.add(panel);
     }
