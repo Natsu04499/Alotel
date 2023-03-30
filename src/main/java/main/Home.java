@@ -20,7 +20,7 @@ public class Home extends JFrame {
         JMenuBar menuBar = new JMenuBar();
 
         // Menu "Actions"
-        JMenu actionsMenu = new JMenu("Actions");
+        JMenu actionsMenu = new JMenu("Menu");
 
         // Ajouter une chambre item
         JMenuItem ajouterChambreItem = new JMenuItem("Ajouter une chambre");
