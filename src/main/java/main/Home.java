@@ -88,7 +88,7 @@ public class Home extends JFrame {
                     }
                 }
             });
-//TEST
+//TESTlol
             menuBar.add(refreshButton);
 
             JScrollPane scrollPane = new JScrollPane(list); // Ajouter la liste à un JScrollPane
