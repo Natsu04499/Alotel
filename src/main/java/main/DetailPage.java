@@ -62,6 +62,7 @@ public class DetailPage extends JFrame {
             e.printStackTrace();
         }
 
+        // Bouton modifier
         JButton modifierButton = new JButton("Modifier");
         modifierButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
