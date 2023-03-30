@@ -85,7 +85,26 @@ public class ModifierPage extends JFrame {
         JButton modifierButton = new JButton("Modifier");
         modifierButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                // Code pour modifier les informations de la chambre dans la base de données
+                // Récupération des nouvelles valeurs entrées par l'utilisateur
+                int numero = Integer.parseInt(numeroField.getText());
+                int personne = Integer.parseInt(personneField.getText());
+                String taille = tailleField.getText();
+                int lit = Integer.parseInt(litField.getText());
+                String description = descriptionField.getText();
+
+// Connexion à la base de données et exécution de la requête UPDATE
+                try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/alotel", "root", "");
+                     PreparedStatement stmt = conn.prepareStatement("UPDATE chambre SET personne=?, taille=?, lit=?, description=? WHERE numero=?")) {
+                    stmt.setInt(1, personne);
+                    stmt.setString(2, taille);
+                    stmt.setInt(3, lit);
+                    stmt.setString(4, description);
+                    stmt.setInt(5, numero);
+                    stmt.executeUpdate();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+
             }
         });
         panel.add(modifierButton);
