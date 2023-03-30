@@ -100,6 +100,7 @@ public class ModifierPage extends JFrame {
                     if (rowsUpdated > 0) {
                         // Affichage d'un message de réussite
                         JOptionPane.showMessageDialog(null, "La chambre a été modifiée avec succès.", "Modification réussie", JOptionPane.INFORMATION_MESSAGE);
+                        dispose();
                     } else {
                         // Affichage d'un message d'erreur
                         JOptionPane.showMessageDialog(null, "La chambre n'a pas pu être modifiée.", "Modification échouée", JOptionPane.ERROR_MESSAGE);
