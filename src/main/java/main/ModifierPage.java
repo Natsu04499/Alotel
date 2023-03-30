@@ -8,11 +8,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
+import javax.swing.*;
 
 public class ModifierPage extends JFrame {
     private JPanel panel;
@@ -92,7 +88,7 @@ public class ModifierPage extends JFrame {
                 int lit = Integer.parseInt(litField.getText());
                 String description = descriptionField.getText();
 
-// Connexion à la base de données et exécution de la requête UPDATE
+            // Connexion à la base de données et exécution de la requête UPDATE
                 try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/alotel", "root", "");
                      PreparedStatement stmt = conn.prepareStatement("UPDATE chambre SET personne=?, taille=?, lit=?, description=? WHERE numero=?")) {
                     stmt.setInt(1, personne);
@@ -100,9 +96,18 @@ public class ModifierPage extends JFrame {
                     stmt.setInt(3, lit);
                     stmt.setString(4, description);
                     stmt.setInt(5, numero);
-                    stmt.executeUpdate();
+                    int rowsUpdated = stmt.executeUpdate();
+                    if (rowsUpdated > 0) {
+                        // Affichage d'un message de réussite
+                        JOptionPane.showMessageDialog(null, "La chambre a été modifiée avec succès.", "Modification réussie", JOptionPane.INFORMATION_MESSAGE);
+                    } else {
+                        // Affichage d'un message d'erreur
+                        JOptionPane.showMessageDialog(null, "La chambre n'a pas pu être modifiée.", "Modification échouée", JOptionPane.ERROR_MESSAGE);
+                    }
                 } catch (SQLException ex) {
                     ex.printStackTrace();
+                    // Affichage d'un message d'erreur
+                    JOptionPane.showMessageDialog(null, "La chambre n'a pas pu être modifiée.", "Modification échouée", JOptionPane.ERROR_MESSAGE);
                 }
 
             }
