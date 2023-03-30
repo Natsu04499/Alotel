@@ -27,6 +27,7 @@ public class ModifierPage extends JFrame {
         this.setSize(400, 300);
         this.setTitle("Modifier la chambre");
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        this.setLocationRelativeTo(null);
 
         panel = new JPanel(new GridLayout(6, 2));
 
