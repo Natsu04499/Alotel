@@ -114,7 +114,7 @@ public class ReservationPage extends JFrame {
         }
 
         // Formatage des dates en "MM-dd-yyyy"
-        DateFormat outputDf = new SimpleDateFormat("MM-dd-yyyy");
+        DateFormat outputDf = new SimpleDateFormat("dd-MM-yyyy");
         String debutFormatted = outputDf.format(debut);
         String finFormatted = outputDf.format(fin);
 
