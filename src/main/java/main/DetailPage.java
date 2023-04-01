@@ -72,8 +72,17 @@ public class DetailPage extends JFrame {
                 dispose();
             }
         });
-        panel.add(modifierButton);
 
+        // Bouton réserver
+        JButton reserverButton = new JButton("Réserver");
+        reserverButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                ReservationPage reservationPage = new ReservationPage(chambreId);
+                reservationPage.setVisible(true);
+            }
+        });
+        panel.add(reserverButton);
+        panel.add(modifierButton);
 
         this.add(panel);
     }
