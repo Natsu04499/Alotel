@@ -11,7 +11,12 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
 import javax.swing.*;
+
+import com.twilio.Twilio;
+import com.twilio.rest.api.v2010.account.Message;
+import com.twilio.type.PhoneNumber;
 
 public class ReservationPage extends JFrame {
     private JPanel panel;
@@ -115,8 +120,23 @@ public class ReservationPage extends JFrame {
             JOptionPane.showMessageDialog(null, "Veuillez saisir un prix valide.");
             return;
         }
+        // Envoi du message avec l'API Twilio
+        String accountSid = "YOUR_ACCOUNT_SID";
+        String authToken = "YOUR_AUTH_TOKEN";
+        String twilioNumber = "YOUR_TWILIO_NUMBER";
+        String destinationNumber = telephoneField.getText();
+        String messageBody = "Votre réservation a été enregistrée avec succès !";
 
-// Connexion à la base de données et insertion du client
+        Twilio.init(accountSid, authToken);
+        Message message = Message.creator(
+                new com.twilio.type.PhoneNumber(destinationNumber),
+                new com.twilio.type.PhoneNumber(twilioNumber),
+                messageBody)
+            .create();
+
+        System.out.println(message.getSid());
+
+        // Connexion à la base de données et insertion du client
         try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/alotel", "root", "");
              PreparedStatement stmt = conn.prepareStatement("INSERT INTO client(nom, prenom, mail, telephone, date_debut, date_fin, prix, id_chambre) VALUES (?, ?, ?, ?, ?, ?, ?, ?)")) {
 
@@ -155,4 +175,3 @@ public class ReservationPage extends JFrame {
         }
     }
 }
-
