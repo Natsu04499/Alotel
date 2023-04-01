@@ -138,7 +138,7 @@ public class ReservationPage extends JFrame {
 
         // Connexion à la base de données et insertion du client
         try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/alotel", "root", "");
-             PreparedStatement stmt = conn.prepareStatement("INSERT INTO client(nom, prenom, mail, telephone, date_debut, date_fin, prix, id_chambre) VALUES (?, ?, ?, ?, ?, ?, ?, ?)")) {
+             PreparedStatement stmt = conn.prepareStatement("INSERT INTO client(nom, prenom, mail, telephone, date_debut, date_fin, prix, numero_chambre) VALUES (?, ?, ?, ?, ?, ?, ?, ?)")) {
 
             // Récupération des valeurs des champs
             String newnom = nomField.getText();
