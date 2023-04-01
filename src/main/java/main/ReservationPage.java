@@ -113,6 +113,12 @@ public class ReservationPage extends JFrame {
             return;
         }
 
+        // Formatage des dates en "MM-dd-yyyy"
+        DateFormat outputDf = new SimpleDateFormat("MM-dd-yyyy");
+        String debutFormatted = outputDf.format(debut);
+        String finFormatted = outputDf.format(fin);
+
+
         // Vérification et conversion du champ de prix
         try {
             prix = Integer.parseInt(prixField.getText());
@@ -129,7 +135,7 @@ public class ReservationPage extends JFrame {
         String destinationNumber = telephoneField.getText();
         String debutStr = df.format(debut);
         String finStr = df.format(fin);
-        String messageBody = "Bonjour, " +nom+ " " +prenom+ " votre reservation pour la chambre N°" +chambreId+ " a été effectuer avec succès le " + debutStr + " et elle prendra fin le " + finStr + " à 11h pour une somme de " +prix+ "€ par nuit";
+        String messageBody = "Bonjour, " +nom+ " " +prenom+ " votre reservation pour la chambre N°" +chambreId+ " a été effectuer avec succès le " + debutFormatted + " et elle prendra fin le " + finFormatted + " à 11h pour une somme de " +prix+ "€ par nuit.";
 
         Twilio.init(accountSid, authToken);
         Message message = Message.creator(
