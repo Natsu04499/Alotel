@@ -120,12 +120,16 @@ public class ReservationPage extends JFrame {
             JOptionPane.showMessageDialog(null, "Veuillez saisir un prix valide.");
             return;
         }
+
+
         // Envoi du message avec l'API Twilio
         String accountSid = "AC41387735704c0228a69ee90e7bf3170b";
         String authToken = "fc14ef5d6afdc81229257c23a5d592d3";
         String twilioNumber = "+15856394150";
         String destinationNumber = telephoneField.getText();
-        String messageBody = "Bonjour," +nom+ " " +prenom+ " votre reservation pour la chambre ? a été effectuer avec succès le " +debut+ " et elle prendra fin le " +fin+ " a 11h pour un prix une somme de " +prix+ "€ par nuit";
+        String debutStr = df.format(debut);
+        String finStr = df.format(fin);
+        String messageBody = "Bonjour, " +nom+ " " +prenom+ " votre reservation pour la chambre N°" +chambreId+ " a été effectuer avec succès le " + debutStr + " et elle prendra fin le " + finStr + " à 11h pour une somme de " +prix+ "€ par nuit";
 
         Twilio.init(accountSid, authToken);
         Message message = Message.creator(
