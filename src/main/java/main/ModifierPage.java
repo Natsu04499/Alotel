@@ -1,6 +1,6 @@
 package main;
 
-import java.awt.GridLayout;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
@@ -30,32 +30,39 @@ public class ModifierPage extends JFrame {
         this.setLocationRelativeTo(null);
 
         panel = new JPanel(new GridLayout(6, 2));
+        panel.setBackground(Color.DARK_GRAY); // Couleur de fond
+        panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // Marge interne
 
         numeroLabel = new JLabel("Numéro : ");
+        numeroLabel.setForeground(Color.WHITE); // Couleur du texte
         panel.add(numeroLabel);
 
         numeroField = new JTextField();
         panel.add(numeroField);
 
         personneLabel = new JLabel("Personne : ");
+        personneLabel.setForeground(Color.WHITE); // Couleur du texte
         panel.add(personneLabel);
 
         personneField = new JTextField();
         panel.add(personneField);
 
         tailleLabel = new JLabel("Taille : ");
+        tailleLabel.setForeground(Color.WHITE); // Couleur du texte
         panel.add(tailleLabel);
 
         tailleField = new JTextField();
         panel.add(tailleField);
 
         litLabel = new JLabel("Lit : ");
+        litLabel.setForeground(Color.WHITE); // Couleur du texte
         panel.add(litLabel);
 
         litField = new JTextField();
         panel.add(litField);
 
         descriptionLabel = new JLabel("Description : ");
+        descriptionLabel.setForeground(Color.WHITE); // Couleur du texte
         panel.add(descriptionLabel);
 
         descriptionField = new JTextField();
@@ -80,6 +87,9 @@ public class ModifierPage extends JFrame {
 
         // Bouton modifier
         JButton modifierButton = new JButton("Modifier");
+        modifierButton.setForeground(Color.BLACK); // Couleur du texte
+        modifierButton.setBackground(Color.BLUE); // Couleur de fond
+        modifierButton.setFont(new Font("Arial", Font.PLAIN, 14)); // Police et taille du texte
         modifierButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 // Récupération des nouvelles valeurs entrées par l'utilisateur
@@ -89,7 +99,7 @@ public class ModifierPage extends JFrame {
                 int lit = Integer.parseInt(litField.getText());
                 String description = descriptionField.getText();
 
-            // Connexion à la base de données et exécution de la requête UPDATE
+                // Connexion à la base de données et exécution de la requête UPDATE
                 try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/alotel", "root", "");
                      PreparedStatement stmt = conn.prepareStatement("UPDATE chambre SET personne=?, taille=?, lit=?, description=? WHERE numero=?")) {
                     stmt.setInt(1, personne);
@@ -115,6 +125,8 @@ public class ModifierPage extends JFrame {
             }
         });
         panel.add(modifierButton);
+
+        panel.setBackground(Color.DARK_GRAY); // Couleur de fond du panel
 
         this.add(panel);
     }

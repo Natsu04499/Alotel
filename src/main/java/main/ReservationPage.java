@@ -3,10 +3,7 @@ package main;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -130,7 +127,7 @@ public class ReservationPage extends JFrame {
 
         // Envoi du message avec l'API Twilio
         String accountSid = "AC41387735704c0228a69ee90e7bf3170b";
-        String authToken = "fc14ef5d6afdc81229257c23a5d592d3";
+        String authToken = "33fca44c00690f43289f1c2677e207b9";
         String twilioNumber = "+15856394150";
         String destinationNumber = telephoneField.getText();
         String debutStr = df.format(debut);
@@ -148,40 +145,92 @@ public class ReservationPage extends JFrame {
 
         // Connexion à la base de données et insertion du client
         try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/alotel", "root", "");
-             PreparedStatement stmt = conn.prepareStatement("INSERT INTO client(nom, prenom, mail, telephone, date_debut, date_fin, prix, numero_chambre) VALUES (?, ?, ?, ?, ?, ?, ?, ?)")) {
+             PreparedStatement interstmt = conn.prepareStatement("SELECT COUNT(*) FROM client WHERE mail = ? OR telephone = ?");
+             PreparedStatement TESTstmt = conn.prepareStatement("SELECT fidelite FROM client WHERE 1");
+             PreparedStatement stmt = conn.prepareStatement("INSERT INTO client(nom, prenom, mail, telephone, date_debut, date_fin, prix, numero_chambre, programme, fidelite) VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'Oui', 10)")) {
 
-            // Récupération des valeurs des champs
-            String newnom = nomField.getText();
-            String newprenom = prenomField.getText();
-            String newmail = mailField.getText();
-            String newtelephone = telephoneField.getText();
-            String dateDebut = debutField.getText();
-            String dateFin = finField.getText();
-            int idChambre = chambreId;
+            String amail = mailField.getText();
+            String atelephone = telephoneField.getText();
 
-            // Remplissage des paramètres de la requête
-            stmt.setString(1, newnom);
-            stmt.setString(2, newprenom);
-            stmt.setString(3, newmail);
-            stmt.setString(4, newtelephone);
-            stmt.setString(5, dateDebut);
-            stmt.setString(6, dateFin);
-            stmt.setInt(7, prix);
-            stmt.setInt(8, idChambre);
+            interstmt.setString(1, amail);
+            interstmt.setString(2, atelephone);
 
-            // Exécution de la requête
-            int rows = stmt.executeUpdate();
+            ResultSet rs = interstmt.executeQuery();
 
-            if (rows > 0) {
-                JOptionPane.showMessageDialog(null, "La réservation a été enregistrée avec succès !");
-                dispose();
+            if (rs.next()) {
+                int count = rs.getInt(1);
+                if (count > 0) {
+                    // Récupération des valeurs des champs
+                    String newnom = nomField.getText();
+                    String newprenom = prenomField.getText();
+                    String newmail = mailField.getText();
+                    String newtelephone = telephoneField.getText();
+                    String dateDebut = debutField.getText();
+                    String dateFin = finField.getText();
+                    int idChambre = chambreId;
+
+                    // Remplissage des paramètres de la requête
+                    stmt.setString(1, newnom);
+                    stmt.setString(2, newprenom);
+                    stmt.setString(3, newmail);
+                    stmt.setString(4, newtelephone);
+                    stmt.setString(5, dateDebut);
+                    stmt.setString(6, dateFin);
+                    stmt.setInt(7, prix);
+                    stmt.setInt(8, idChambre);
+
+                    // Exécution de la requête
+                    int rows = stmt.executeUpdate();
+
+                    if (rows > 0) {
+                        JOptionPane.showMessageDialog(null, "La réservation a été enregistrée avec succès !");
+                        dispose();
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Une erreur est survenue lors de l'enregistrement de la réservation.");
+                    }
+                    JOptionPane.showMessageDialog(null, "Le client avec cette adresse e-mail ou ce numéro de téléphone existe déjà.");
+                    return;
+                }
             } else {
-                JOptionPane.showMessageDialog(null, "Une erreur est survenue lors de l'enregistrement de la réservation.");
+                // Récupération des valeurs des champs
+                String newnom = nomField.getText();
+                String newprenom = prenomField.getText();
+                String newmail = mailField.getText();
+                String newtelephone = telephoneField.getText();
+                String dateDebut = debutField.getText();
+                String dateFin = finField.getText();
+                int idChambre = chambreId;
+
+                // Remplissage des paramètres de la requête
+                stmt.setString(1, newnom);
+                stmt.setString(2, newprenom);
+                stmt.setString(3, newmail);
+                stmt.setString(4, newtelephone);
+                stmt.setString(5, dateDebut);
+                stmt.setString(6, dateFin);
+                stmt.setInt(7, prix);
+                stmt.setInt(8, idChambre);
+
+                // Exécution de la requête
+                int rows = stmt.executeUpdate();
+
+                if (rows > 0) {
+                    JOptionPane.showMessageDialog(null, "La réservation a été enregistrée avec succès !");
+                    dispose();
+                } else {
+                    JOptionPane.showMessageDialog(null, "Une erreur est survenue lors de l'enregistrement de la réservation.");
+                }
+
+                JOptionPane.showMessageDialog(null, "Vous rejoignez le programme.");
+                return;
             }
 
         } catch (SQLException e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, "Une erreur est survenue lors de l'enregistrement de la réservation.");
         }
+
+
+
     }
 }

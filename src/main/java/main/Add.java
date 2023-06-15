@@ -7,48 +7,78 @@ import java.awt.*;
 
 public class Add extends JFrame {
 
-    private JLabel numeroLabel = new JLabel("Numéro de la chambre:");
-    private JTextField numeroField = new JTextField();
-
-    private JLabel personneLabel = new JLabel("Nombre de personne:");
-    private JTextField personneField = new JTextField();
-
-    private JLabel tailleLabel = new JLabel("Taille:");
-    private JTextField tailleField = new JTextField();
-
-    private JLabel litLabel = new JLabel("Nombre de lit:");
-    private JTextField litField = new JTextField();
-
-    private JLabel descriptionLabel = new JLabel("Description:");
-    private JTextArea descriptionArea = new JTextArea(5, 20);
-
-    private JButton enregistrerButton = new JButton("Enregistrer");
+    private JPanel panel;
+    private JLabel numeroLabel;
+    private JTextField numeroField;
+    private JLabel personneLabel;
+    private JTextField personneField;
+    private JLabel tailleLabel;
+    private JTextField tailleField;
+    private JLabel litLabel;
+    private JTextField litField;
+    private JLabel descriptionLabel;
+    private JTextArea descriptionArea;
+    private JButton enregistrerButton;
 
     public Add() {
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.setTitle("Ajouter une chambre");
         this.setSize(400, 300);
         this.setLocationRelativeTo(null);
-        this.setLayout(new GridLayout(6, 2, 10, 10));
 
-        this.add(numeroLabel);
-        this.add(numeroField);
+        // Style moderne
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-        this.add(personneLabel);
-        this.add(personneField);
+        panel = new JPanel(new GridLayout(6, 2));
+        panel.setBackground(Color.DARK_GRAY); // Couleur de fond
+        panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // Marge interne
 
-        this.add(tailleLabel);
-        this.add(tailleField);
+        numeroLabel = new JLabel("Numéro de la chambre:");
+        numeroLabel.setForeground(Color.WHITE); // Couleur du texte
+        panel.add(numeroLabel);
 
-        this.add(litLabel);
-        this.add(litField);
+        numeroField = new JTextField();
+        panel.add(numeroField);
 
-        this.add(descriptionLabel);
-        this.add(descriptionArea);
+        personneLabel = new JLabel("Nombre de personne:");
+        personneLabel.setForeground(Color.WHITE); // Couleur du texte
+        panel.add(personneLabel);
 
-        this.add(new JLabel()); // case vide pour faire de la place
-        this.add(enregistrerButton);
+        personneField = new JTextField();
+        panel.add(personneField);
 
+        tailleLabel = new JLabel("Taille:");
+        tailleLabel.setForeground(Color.WHITE); // Couleur du texte
+        panel.add(tailleLabel);
+
+        tailleField = new JTextField();
+        panel.add(tailleField);
+
+        litLabel = new JLabel("Nombre de lit:");
+        litLabel.setForeground(Color.WHITE); // Couleur du texte
+        panel.add(litLabel);
+
+        litField = new JTextField();
+        panel.add(litField);
+
+        descriptionLabel = new JLabel("Description:");
+        descriptionLabel.setForeground(Color.WHITE); // Couleur du texte
+        panel.add(descriptionLabel);
+
+        descriptionArea = new JTextArea(5, 20);
+        panel.add(descriptionArea);
+
+        // Case vide pour faire de la place
+        panel.add(new JLabel());
+
+        enregistrerButton = new JButton("Enregistrer");
+        enregistrerButton.setForeground(Color.BLACK); // Couleur du texte
+        enregistrerButton.setBackground(Color.BLUE); // Couleur de fond
+        enregistrerButton.setFont(new Font("Arial", Font.PLAIN, 14)); // Police et taille du texte
         enregistrerButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 String numero = numeroField.getText();
@@ -59,7 +89,9 @@ public class Add extends JFrame {
                 saveToDatabase(numero, personne, taille, lit, description);
             }
         });
+        panel.add(enregistrerButton);
 
+        this.add(panel);
         this.setVisible(true);
     }
 
@@ -83,19 +115,16 @@ public class Add extends JFrame {
             if (rowsInserted > 0) {
                 JOptionPane.showMessageDialog(this, "La chambre a été ajoutée avec succès.");
                 this.dispose();
-            }
-            else {
+            } else {
                 JOptionPane.showMessageDialog(this, "Erreur : la chambre n'a pas pu être ajoutée.");
             }
 
             // Fermeture de la connexion
             stmt.close();
             con.close();
-        }
-        catch (ClassNotFoundException ex) {
+        } catch (ClassNotFoundException ex) {
             JOptionPane.showMessageDialog(this, "Erreur : le pilote MySQL n'a pas été trouvé.");
-        }
-        catch (SQLException ex) {
+        } catch (SQLException ex) {
             JOptionPane.showMessageDialog(this, "Erreur : " + ex.getMessage());
         }
     }
@@ -103,5 +132,4 @@ public class Add extends JFrame {
     public static void main(String[] args) {
         new Add();
     }
-
 }

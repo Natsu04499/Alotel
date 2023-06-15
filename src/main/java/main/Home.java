@@ -11,29 +11,42 @@ import java.sql.*;
 public class Home extends JFrame {
 
     public Home (){
-        super("Page d'accueil"); // définir le titre de la fenêtre
+        super("Page d'accueil"); // Définir le titre de la fenêtre
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.setSize(600, 600);
         this.setLocationRelativeTo(null);
+
+        // Style moderne
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         // Menu bar
         JMenuBar menuBar = new JMenuBar();
 
         // Menu "Actions"
         JMenu actionsMenu = new JMenu("Menu");
+        actionsMenu.setForeground(Color.BLACK); // Couleur du texte
+        actionsMenu.setFont(new Font("Arial", Font.PLAIN, 14)); // Police et taille du texte
 
         // Ajouter une chambre item
         JMenuItem ajouterChambreItem = new JMenuItem("Ajouter une chambre");
+        ajouterChambreItem.setForeground(Color.BLACK); // Couleur du texte
+        ajouterChambreItem.setFont(new Font("Arial", Font.PLAIN, 12)); // Police et taille du texte
         ajouterChambreItem.addActionListener(e -> {
-            // code à exécuter lors du clic sur le menu item "Ajouter une chambre"
+            // Code à exécuter lors du clic sur le menu item "Ajouter une chambre"
             Add addPage = new Add();
             addPage.setVisible(true);
         });
 
         // Filtrer les chambres item
         JMenuItem filtrerChambresItem = new JMenuItem("Filtrer les chambres");
+        filtrerChambresItem.setForeground(Color.BLACK); // Couleur du texte
+        filtrerChambresItem.setFont(new Font("Arial", Font.PLAIN, 12)); // Police et taille du texte
         filtrerChambresItem.addActionListener(e -> {
-            // code à exécuter lors du clic sur le menu item "Filtrer les chambres"
+            // Code à exécuter lors du clic sur le menu item "Filtrer les chambres"
         });
 
         actionsMenu.add(ajouterChambreItem);
@@ -58,8 +71,15 @@ public class Home extends JFrame {
                 model.addElement("Chambre numéro : " + numero + "   /   " + personne + " personnes possible");
             }
             JList<String> list = new JList<>(model);
+            list.setForeground(Color.WHITE); // Couleur du texte
+            list.setBackground(Color.DARK_GRAY); // Couleur de fond
+            list.setFont(new Font("Arial", Font.PLAIN, 14)); // Police et taille du texte
+
             // Bouton de rafraîchissement
             JButton refreshButton = new JButton("Rafraîchir");
+            refreshButton.setForeground(Color.BLACK); // Couleur du texte
+            refreshButton.setBackground(Color.BLUE); // Couleur de fond
+            refreshButton.setFont(new Font("Arial", Font.PLAIN, 14)); // Police et taille du texte
             refreshButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
@@ -94,10 +114,15 @@ public class Home extends JFrame {
             JScrollPane scrollPane = new JScrollPane(list); // Ajouter la liste à un JScrollPane
 
             JPopupMenu popupMenu = new JPopupMenu(); // Créer un menu contextuel
+            popupMenu.setForeground(Color.WHITE); // Couleur du texte
+            popupMenu.setBackground(Color.DARK_GRAY); // Couleur de fond
+
             JMenuItem deleteItem = new JMenuItem("Supprimer"); // Créer un item "Supprimer"
+            deleteItem.setForeground(Color.WHITE); // Couleur du texte
+            deleteItem.setFont(new Font("Arial", Font.PLAIN, 12)); // Police et taille du texte
             popupMenu.add(deleteItem); // Ajouter l'item au menu contextuel
 
-        // Ajouter un listener pour afficher le menu contextuel lorsque l'utilisateur fait un clic droit sur un élément de la liste
+            // Ajouter un listener pour afficher le menu contextuel lorsque l'utilisateur fait un clic droit sur un élément de la liste
             list.addMouseListener(new MouseAdapter() {
                 public void mousePressed(MouseEvent e) {
                     if (SwingUtilities.isRightMouseButton(e)) {
@@ -108,7 +133,7 @@ public class Home extends JFrame {
                 }
             });
 
-        // Ajouter un listener pour supprimer l'élément sélectionné lors du clic sur l'item "Supprimer" du menu contextuel
+            // Ajouter un listener pour supprimer l'élément sélectionné lors du clic sur l'item "Supprimer" du menu contextuel
             deleteItem.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                     int index = list.getSelectedIndex(); // Récupérer l'index de l'élément sélectionné dans la liste
@@ -159,6 +184,7 @@ public class Home extends JFrame {
 
             // Ajouter les composants à la fenêtre
             JPanel panel = new JPanel(new BorderLayout());
+            panel.setBackground(Color.DARK_GRAY); // Couleur de fond
             panel.add(menuBar, BorderLayout.NORTH);
             panel.add(scrollPane, BorderLayout.CENTER); // Ajouter le JScrollPane au centre du JPanel
             this.setContentPane(panel);
